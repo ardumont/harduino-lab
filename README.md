@@ -18,6 +18,8 @@ make install
 
 ## blinking led 
 
+- led connected on pin 13 on the arduino uno.
+
 ```sh
 cd src && runhaskell Blink /dev/ttyACM0
 ```
