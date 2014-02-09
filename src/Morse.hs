@@ -58,14 +58,18 @@ type Bit = Integer
 type Word = String
 type Sentence = [Word]
 
-wordToMorse :: Word -> [[Bit]]
+type MorseSentence = [[[Bit]]]
+type MorseWord = [[Bit]]
+type MorseLetter = [Bit]
+
+wordToMorse :: Word -> MorseWord
 wordToMorse =
   map morseWord
   where morseWord w = case (Map.lookup (toLower w) morseMap) of
           Just v -> v
           _      -> []
 
-sentenceToMorse :: Sentence -> [[[Bit]]]
+sentenceToMorse :: Sentence -> MorseSentence
 sentenceToMorse = map wordToMorse
 
 -- arduino part
@@ -81,17 +85,17 @@ blink l pauseTime = do digitalWrite l True
                        digitalWrite l False
                        delay pauseTime
 
-speakLetter :: Pin -> [Bit] -> Arduino ()
+speakLetter :: Pin -> MorseLetter -> Arduino ()
 speakLetter l bs = mapM_ (blink l . computePauseTime) bs
                    where computePauseTime 1 = dahs
                          computePauseTime 0 = dit
 
-speakWord :: Pin -> [[Bit]] -> Arduino ()
+speakWord :: Pin -> MorseWord -> Arduino ()
 speakWord l bbs = mapM_ doSpeakLetter bbs
                   where doSpeakLetter bs = do speakLetter l bs
                                               delay pauseBetweenLetters
 
-speakSentence :: Pin -> [[[Bit]]] -> Arduino ()
+speakSentence :: Pin -> MorseSentence -> Arduino ()
 speakSentence l bbbs = mapM_ doSpeakWord bbbs
                        where doSpeakWord bbs = do speakWord l bbs
                                                   delay pauseBetweenWords
