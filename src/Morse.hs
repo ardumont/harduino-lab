@@ -96,16 +96,16 @@ speakSentence l bbbs = mapM_ doSpeakWord bbbs
                        where doSpeakWord bbs = do speakWord l bbs
                                                   delay pauseBetweenWords
 
--- Blink the led connected to port 13 on the Arduino UNO board.
-run :: String -> IO ()
-run device = withArduino False device $ do
-               let led = digital 13
-               prepareLed led
-               speakSentence led $ (sentenceToMorse . words) "sending out an sos"
-               return ()
+-- Make the led blink in morse the given sentence
+run :: FilePath -> String -> IO ()
+run device sentence = withArduino False device $ do
+                         let led = digital 13
+                         prepareLed led
+                         speakSentence led $ (sentenceToMorse . words) sentence
+                         return ()
 
 -- run from the cli
 main :: IO ()
 main =
-  do (devicePath:_) <- getArgs
-     run devicePath
+  do (devicePath:sentence:_) <- getArgs
+     run devicePath sentence
