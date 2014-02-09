@@ -101,8 +101,8 @@ speakSentence l bbbs = mapM_ doSpeakWord bbbs
                                                   delay pauseBetweenWords
 
 -- Make the led blink in morse the given sentence
-run :: FilePath -> String -> IO ()
-run device sentence = withArduino False device $ do
+speakMorseWithDevice :: FilePath -> String -> IO ()
+speakMorseWithDevice device sentence = withArduino False device $ do
                          let led = digital 13
                          prepareLed led
                          speakSentence led $ (sentenceToMorse . words) sentence
@@ -112,4 +112,4 @@ run device sentence = withArduino False device $ do
 main :: IO ()
 main =
   do (devicePath:sentence:_) <- getArgs
-     run devicePath sentence
+     speakMorseWithDevice devicePath sentence
