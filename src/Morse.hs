@@ -81,7 +81,7 @@ blink l pauseTime = do digitalWrite l True
                        delay pauseTime
 
 speakLetter :: Pin -> [Bit] -> Arduino ()
-speakLetter l bs = mapM_ (\ b -> blink l $ computePauseTime b) bs
+speakLetter l bs = mapM_ (blink l . computePauseTime) bs
                    where computePauseTime 1 = dahs
                          computePauseTime 0 = dit
 
