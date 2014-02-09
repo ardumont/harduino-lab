@@ -113,3 +113,5 @@ main :: IO ()
 main =
   do (devicePath:sentence:_) <- getArgs
      speakMorseWithDevice devicePath sentence
+
+-- *Morse> speakMorseWithDevice "/dev/ttyACM0" "sending out an sos"
