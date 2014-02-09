@@ -5,21 +5,21 @@ import System.Hardware.Arduino
 import System.Environment
 
 -- unit of time (ms)
-unitOfTime :: Integer
+unitOfTime :: Int
 unitOfTime = 300
 
 -- short pulse
-dit :: Integer
+dit :: Int
 dit = 1 * unitOfTime
 
 -- long pulse
-dahs :: Integer
+dahs :: Int
 dahs = 3 * unitOfTime
 
-pauseBetweenLetters :: Integer
+pauseBetweenLetters :: Int
 pauseBetweenLetters = 3 * unitOfTime
 
-pauseBetweenWords :: Integer
+pauseBetweenWords :: Int
 pauseBetweenWords = 7 * unitOfTime
 
 -- http://www.colorpilot.com/morse.html
@@ -66,3 +66,36 @@ wordToMorse =
 
 sentenceToMorse :: Sentence -> [[[Bit]]]
 sentenceToMorse = map wordToMorse
+
+-- arduino part
+
+-- prepare the led
+prepareLed :: Pin -> Arduino ()
+prepareLed = flip setPinMode OUTPUT
+
+-- make the led blink for a given time
+blink :: Pin -> Int -> Arduino ()
+blink l pauseTime = do digitalWrite l True
+                       delay pauseTime
+                       digitalWrite l False
+                       delay pauseTime
+
+speakLetter :: Pin -> [Bit] -> Arduino ()
+speakLetter l bs = mapM_ (\ b -> blink l $ computePauseTime b) bs
+                   where computePauseTime 1 = dahs
+                         computePauseTime 0 = dit
+
+-- Blink the led connected to port 13 on the Arduino UNO board.
+run :: String -> IO ()
+run device = withArduino False device $ do
+               let led = digital 13
+               prepareLed led
+               speakLetter led $ (head . wordToMorse) "o"
+               return ()
+
+
+-- run from the cli
+main :: IO ()
+main =
+  do (devicePath:_) <- getArgs
+     run devicePath
