@@ -3,6 +3,7 @@ module Morse where
 import qualified Data.Map as Map
 import System.Hardware.Arduino
 import System.Environment
+import Data.Char (toLower)
 
 -- unit of time (ms)
 unitOfTime :: Int
@@ -60,7 +61,7 @@ type Sentence = [Word]
 wordToMorse :: Word -> [[Bit]]
 wordToMorse =
   map morseWord
-  where morseWord w = case (Map.lookup w morseMap) of
+  where morseWord w = case (Map.lookup (toLower w) morseMap) of
           Just v -> v
           _      -> []
 

@@ -1,8 +1,7 @@
 module MorseTests where
 
-import Morse
+import Morse (wordToMorse, sentenceToMorse)
 import Test.HUnit
-import qualified Data.Map as Map
 
 -- ######### Tests
 
@@ -11,8 +10,14 @@ testWordToMorse1 = [[0,1,0,0],[0,0],[0,0,1,0],[0]]
                    ~=?
                    wordToMorse "life"
 
+testWordToMorse2 :: Test.HUnit.Test
+testWordToMorse2 = [[0,1,0,0],[0,0],[0,0,1,0],[0]]
+                   ~=?
+                   wordToMorse "LIFE"
+
 testWordToMorses :: Test.HUnit.Test
-testWordToMorses = TestList ["testWordToMorse1" ~: testWordToMorse1]
+testWordToMorses = TestList ["testWordToMorse1" ~: testWordToMorse1
+                            ,"testWordToMorse2" ~: testWordToMorse2]
 
 testSentenceToMorse1 :: Test.HUnit.Test
 testSentenceToMorse1 = [[[1],[0,0,0,0],[0]],[[0,1],[1,0],[0,0,0],[0,1,1],[0],[0,1,0]],[[1],[1,1,1]],[[0,1,0,0],[0,0],[0,0,1,0],[0],[]],[[1],[0,0,0,0],[0]],[[0,0,1],[1,0],[0,0],[0,0,0,1],[0],[0,1,0],[0,0,0],[0]],[[0,1],[1,0],[1,0,0]],[[0],[0,0,0,1],[0],[0,1,0],[1,0,1,1],[1],[0,0,0,0],[0,0],[1,0],[1,1,0]]]
