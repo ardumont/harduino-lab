@@ -85,14 +85,18 @@ speakLetter l bs = mapM_ (blink l . computePauseTime) bs
                    where computePauseTime 1 = dahs
                          computePauseTime 0 = dit
 
+speakWord :: Pin -> [[Bit]] -> Arduino ()
+speakWord l bbs = mapM_ doSpeakLetter bbs
+                  where doSpeakLetter bs = do speakLetter l bs
+                                              delay pauseBetweenLetters
+
 -- Blink the led connected to port 13 on the Arduino UNO board.
 run :: String -> IO ()
 run device = withArduino False device $ do
                let led = digital 13
                prepareLed led
-               speakLetter led $ (head . wordToMorse) "o"
+               speakWord led $ wordToMorse "sos"
                return ()
-
 
 -- run from the cli
 main :: IO ()
