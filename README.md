@@ -24,6 +24,16 @@ make install deps
 cd src && runhaskell Blink /dev/ttyACM0
 ```
 
+## Morse
+
+Make the led blink in morse.
+
+- led connected on pin 13 on the arduino uno.
+
+```sh
+cd src && runhaskell Morse /dev/ttyACM0 "sending out an sos"
+```
+
 # Problems
 
 ## GNU/Linux
