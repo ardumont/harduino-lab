@@ -1,7 +1,13 @@
 DEVICE=/dev/ttyACM0
 
-install:
+deps: update
 	cabal install harduino test-framework test-framework-hunit
+
+update:
+	cabal update
+
+install:
+	sudo apt-get install -y haskell-platform
 
 rights:
 	sudo chown $(USER): $(DEVICE)

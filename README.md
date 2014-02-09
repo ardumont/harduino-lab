@@ -1,4 +1,4 @@
-harduino-lab
+harduino-lab [![Build Status](https://travis-ci.org/ardumont/harduino-lab.png?branch=master)](https://travis-ci.org/ardumont/harduino-lab)
 ============
 
 Mess around with arduino and haskell
@@ -8,13 +8,13 @@ Mess around with arduino and haskell
 - haskell-platform
 - cabal
 
-# install
+# Install
 
 ```sh
-make install
+make install deps
 ```
 
-# run
+# Run
 
 ## blinking led 
 
