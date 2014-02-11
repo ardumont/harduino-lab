@@ -4,6 +4,7 @@ import qualified Data.Map as Map
 import System.Hardware.Arduino
 import System.Environment
 import Data.Char (toLower)
+import Data.Maybe (fromMaybe)
 
 -- unit of time (ms)
 unitOfTime :: Int
@@ -65,9 +66,7 @@ type MorseLetter = [Bit]
 wordToMorse :: Word -> MorseWord
 wordToMorse =
   map morseWord
-  where morseWord w = case (Map.lookup (toLower w) morseMap) of
-          Just v -> v
-          _      -> []
+  where morseWord w = fromMaybe [] $ toLower w `Map.lookup` morseMap
 
 sentenceToMorse :: Sentence -> MorseSentence
 sentenceToMorse = map wordToMorse
