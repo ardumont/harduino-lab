@@ -27,8 +27,8 @@ pauseBetweenWords = 7 * unitOfTime
 -- http://www.colorpilot.com/morse.html
 
 -- map representation of the morse
-morseMap :: Map.Map Char [Integer]
-morseMap = Map.fromList [('a', [0,1]),
+dict :: Map.Map Char [Integer]
+dict = Map.fromList [('a', [0,1]),
                          ('b', [1,0,0,0]),
                          ('c', [1,0,1,0]),
                          ('d', [1,0,0]),
@@ -66,7 +66,7 @@ type MorseLetter = [Bit]
 wordToMorse :: Word -> MorseWord
 wordToMorse =
   map morseWord
-  where morseWord w = fromMaybe [] $ toLower w `Map.lookup` morseMap
+  where morseWord w = fromMaybe [] $ toLower w `Map.lookup` dict
 
 sentenceToMorse :: Sentence -> MorseSentence
 sentenceToMorse = map wordToMorse
