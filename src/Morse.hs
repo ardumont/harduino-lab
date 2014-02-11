@@ -55,13 +55,13 @@ dict = Map.fromList [('a', [0,1]),
                          ('y', [1,0,1,1]),
                          ('z', [1,1,0,0])]
 
-type Bit = Integer
+type Pulse = Integer
 type Word = String
 type Sentence = [Word]
 
-type MorseSentence = [[[Bit]]]
-type MorseWord = [[Bit]]
-type MorseLetter = [Bit]
+type MorseSentence = [[[Pulse]]]
+type MorseWord = [[Pulse]]
+type MorseLetter = [Pulse]
 
 wordToMorse :: Word -> MorseWord
 wordToMorse =
